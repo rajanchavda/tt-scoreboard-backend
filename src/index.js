@@ -21,9 +21,6 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-// Setting up socket.io events
-const { OnConnectionSuccess } = require('./socket.io/socketio')
-OnConnectionSuccess(io)
 
 // Import Routing
 const userRouter = require('./routers/user')
@@ -74,3 +71,8 @@ const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
   console.log('Server started on port ', PORT);
 })
+
+
+// Setting up socket.io events
+const { OnConnectionSuccess } = require('./socket.io/socketio')
+OnConnectionSuccess(io)
