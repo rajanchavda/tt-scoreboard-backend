@@ -15,16 +15,17 @@ var cors = require('cors')
 
 // Create express App
 const app = express();
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
 // Socket.io config
-const { Server } = require("socket.io");
-const io = new Server(server);
+const socket = require("socket.io");
+// const io = new Server(server);
 
 
 // Import Routing
 const userRouter = require('./routers/user')
-const gameRouter = require('./routers/game')
+const gameRouter = require('./routers/game');
+const { SOCKET_EVENTS } = require('./socket.io/socketio');
 
 
 // app.use(cors())
@@ -68,11 +69,20 @@ app.use(gameRouter)
 
 const PORT = process.env.PORT || 4000;
 
-server.listen(PORT, () => {
+var server = app.listen(PORT, () => {
   console.log('Server started on port ', PORT);
   // Setting up socket.io events
-  const { OnConnectionSuccess } = require('./socket.io/socketio')
-  OnConnectionSuccess(io)
+  // const { OnConnectionSuccess } = require('./socket.io/socketio')
+  // OnConnectionSuccess(io)
 })
 
+let io = socket(server)
+io.on('connection', function (socket) {
+  console.log(`${socket.id} is connected`);
 
+  socket.on(SOCKET_EVENTS.GAME_UPDATE, (data) => {
+    console.log(SOCKET_EVENTS.GAME_UPDATE, data);
+
+    io.emit(SOCKET_EVENTS.GAME_UPDATE, data)
+  });
+});
