@@ -1,8 +1,19 @@
 const express = require('express');
+const path = require('path');
+
+// Set environment variables
+require('dotenv').config();
+
+// Create server instance
 const http = require('http')
+
+// Connect DB
 require('./db/db');
+
+// Cors
 var cors = require('cors')
 
+// Create express App
 const app = express();
 const server = http.createServer(app);
 
@@ -58,7 +69,7 @@ app.use(userRouter)
 app.use(gameRouter)
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 server.listen(PORT, () => {
   console.log('Server started on port ', PORT);

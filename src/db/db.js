@@ -1,3 +1,7 @@
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://127.0.0.1:27017/tt-scoreboard-api')
+try {
+  mongoose.connect(process.env.DB_URI)
+} catch (error) {
+  throw new Error(error)
+}
