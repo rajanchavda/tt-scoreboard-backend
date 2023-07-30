@@ -29,6 +29,26 @@ const gameSchema = new mongoose.Schema({
   },
   result: {
     type: String
+  },
+  settings: {
+    gameType: {
+      type: String, // SINGLES,  DOUBLES
+      required: true,
+      enum: ['SINGLES', 'DOUBLES'],
+      default: 'SINGLES'
+    },
+    winPoints: {
+      singles: { // 11
+        type: Number,
+        required: true,
+        default: 11
+      },
+      doubles: { // 21
+        type: Number,
+        required: true,
+        default: 21
+      }
+    }
   }
 })
 

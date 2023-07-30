@@ -64,6 +64,30 @@ router.post('/game/update/:gameId', async (req, res) => {
   }
 })
 
+// Update game settings
+router.post('/game/updateSettings/:gameId', async (req, res) => {
+  const { gameId } = req.params
+
+  try {
+    const game = await Game.findOneAndUpdate({ _id: gameId }, {
+      $set: {
+        settings: req.body
+      }
+    }, { new: true })
+
+    res.header("Access-Control-Allow-Origin", "*");
+
+    req.io.emit(SOCKET_EVENTS.SETTINGS_UPDATE, {
+      event: SOCKET_EVENTS.SETTINGS_UPDATE,
+      payload: game?.settings
+    });
+
+    res.send(game?.settings);
+  } catch (error) {
+    res.status(500).send(error.message || e);
+  }
+})
+
 
 module.exports = router
 

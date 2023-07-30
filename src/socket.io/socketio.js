@@ -1,6 +1,7 @@
 
 const SOCKET_EVENTS = {
-  GAME_UPDATE: 'GameUpdate'
+  GAME_UPDATE: 'GameUpdate',
+  SETTINGS_UPDATE: 'SettingsUpdate',
 }
 
 const OnConnectionSuccess = (io) => {
